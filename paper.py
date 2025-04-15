@@ -66,7 +66,13 @@ class ArxivPaper:
     def tex(self) -> dict[str,str]:
         with ExitStack() as stack:
             tmpdirname = stack.enter_context(TemporaryDirectory())
-            file = self._paper.download_source(dirpath=tmpdirname)
+            file = None
+            for _ in range(5):
+                try:
+                    file = self._paper.download_source(dirpath=tmpdirname)
+                    break
+                except:
+                    continue
             try:
                 tar = stack.enter_context(tarfile.open(file))
             except tarfile.ReadError:
