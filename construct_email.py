@@ -128,7 +128,7 @@ def render_email(papers:list[ArxivPaper]):
         authors = ', '.join(authors)
         if len(p.authors) > 5:
             authors += ', ...'
-        if p.affiliations is not None:
+        if hasattr(p, 'affiliations') and p.affiliations is not None:
             affiliations = p.affiliations[:5]
             affiliations = ', '.join(affiliations)
             if len(p.affiliations) > 5:
